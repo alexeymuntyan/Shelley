@@ -66,12 +66,40 @@ BOOL substringMatch(NSString *actualString, NSString *expectedSubstring){
 
 @implementation UIScrollView (ShelleyExtensions)
 -(void) scrollDown:(int)offset {
-	[self setContentOffset:CGPointMake(0,offset) animated:NO];
+	[self setContentOffset:CGPointMake(0, offset) animated:YES];
+}
+
+-(void) scrollUp:(int)offset {
+	[self setContentOffset:CGPointMake(0, [self contentOffset].y - offset) animated:YES];
+}
+
+-(BOOL) scrollUpPage:(int)pageCount {
+    int offset = 480;
+    if (pageCount != 0) {
+        offset = offset * pageCount;
+    } else {
+        return NO;
+    }
+    if ([self contentOffset].y > offset) {
+        [self setContentOffset:CGPointMake(0, [self contentOffset].y - offset) animated:YES];
+        return YES;
+    } else {
+        [self setContentOffset:CGPointMake(0, 0) animated:NO];
+        return NO;
+    }
 }
 
 -(void) scrollToBottom {
 	CGPoint bottomOffset = CGPointMake(0, [self contentSize].height);
 	[self setContentOffset: bottomOffset animated: YES];
+}
+
+-(int) currentContentOffset {
+    return [self contentOffset].y;
+}
+
+-(int) currentContentSize {
+    return [self contentSize].height;
 }
 
 @end
