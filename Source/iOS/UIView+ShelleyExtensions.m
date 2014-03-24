@@ -31,6 +31,10 @@ BOOL substringMatch(NSString *actualString, NSString *expectedSubstring){
     return [[self accessibilityLabel] isEqualToString:targetLabel];
 }
 
+- (BOOL) markedId:(NSString *)targetLabel{
+    return [[self accessibilityIdentifier] isEqualToString:targetLabel];
+}
+
 - (BOOL) isAnimating {
     if ([self respondsToSelector:@selector(motionEffects)]) {
         return (self.layer.animationKeys.count > [[self performSelector: @selector(motionEffects)] count]);
